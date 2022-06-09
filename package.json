@@ -5,7 +5,7 @@
     "license": "MIT",
     "scripts": {
         "start": "ts-node-dev --respawn --transpile-only src/server.ts",
-        "test": "jest --setupFiles dotenv/config --forceExit --detectOpenHandles",
+        "test": "jest --setupFiles dotenv/config --detectOpenHandles --forceExit",
         "test:ci": "jest --config ./jest.config.ts --collectCoverage --coverageDirectory=\"./coverage\" --ci --reporters=default --reporters=jest-junit --watchAll=false",
         "coverage": "jest --coverage"
     },
