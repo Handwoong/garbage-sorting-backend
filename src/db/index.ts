@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-// import { News } from "@src/repository/news.repository";
+import "dotenv/config";
+import { News } from "@src/repository/news.repository";
 // import { Quiz } from "@src/repository/quiz.repository";
 // import { Trash } from "@src/repository/trash.repository";
 
@@ -15,4 +16,5 @@ db.on("error", (error) =>
     console.error("MongoDB 연결에 실패하였습니다...\n" + DB_URL + "\n" + error),
 );
 
+export { News };
 // export { Quiz, Trash, News };

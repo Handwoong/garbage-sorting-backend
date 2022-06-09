@@ -11,6 +11,7 @@ export default async (): Promise<Config.InitialOptions> => {
 module.exports = {
     preset: "ts-jest",
     testEnvironment: "node",
+    setupFilesAfterEnv: ["<rootDir>/src/utils/setUpTests.ts"],
     collectCoverage: false,
     moduleNameMapper: {
         "@src/(.*)": "<rootDir>/src/$1",
