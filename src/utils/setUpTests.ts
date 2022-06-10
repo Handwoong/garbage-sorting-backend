@@ -4,9 +4,11 @@ import server from "@src/server";
 import { MongoMemoryServer } from "mongodb-memory-server";
 // jest.useRealTimers();
 
+let mongoServer: any;
+
 const dbConnect = async () => {
     if (process.env.NODE_ENV === "test") {
-        const mongoServer = await MongoMemoryServer.create();
+        mongoServer = await MongoMemoryServer.create();
         await mongoose.connect(mongoServer.getUri());
     }
 };
@@ -30,5 +32,6 @@ beforeEach(async () => {
 
 afterAll(async () => {
     server.close();
+    mongoServer.stop();
     await dbDisconnect();
 });
