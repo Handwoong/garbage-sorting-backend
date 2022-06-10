@@ -25,6 +25,7 @@ module.exports = {
     transform: {
         "^.+\\.ts?$": "ts-jest",
     },
+    testTimeout: 15000,
     transformIgnorePatterns: ["<rootDir>/node_modules/"],
     moduleFileExtensions: [...defaults.moduleFileExtensions, "ts", "tsx"],
 };

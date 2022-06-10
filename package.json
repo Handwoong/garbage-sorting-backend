@@ -6,7 +6,7 @@
     "scripts": {
         "start": "ts-node-dev --respawn --transpile-only src/server.ts",
         "test": "cross-env NODE_ENV=test jest --setupFiles dotenv/config --detectOpenHandles --forceExit",
-        "test:ci": "cross-env NODE_ENV=test jest --config ./jest.config.ts --collectCoverage --coverageDirectory=\"./coverage\" --ci --reporters=default --reporters=jest-junit --watchAll=false",
+        "test:ci": "cross-env NODE_ENV=test jest --config ./jest.config.ts --detectOpenHandles --collectCoverage --coverageDirectory=\"./coverage\" --ci --reporters=default --reporters=jest-junit --watchAll=false --forceExit",
         "coverage": "cross-env NODE_ENV=test jest --coverage"
     },
     "dependencies": {
