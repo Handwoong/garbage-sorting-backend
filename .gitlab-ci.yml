@@ -24,6 +24,8 @@ test:
     dependencies:
         - build
     script:
+        - export MONGOMS_DOWNLOAD_URL=https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-debian10-4.4.1.tgz
+        - export MONGOMS_VERSION=4.4.1
         - yarn test:ci
     cache:
         - paths:
