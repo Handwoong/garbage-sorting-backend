@@ -10,4 +10,9 @@ export class News {
         const createdNews = await NewsModel.create(news);
         return createdNews;
     }
+
+    static async setNews(id: string, news: INews) {
+        const setNews = await NewsModel.findByIdAndUpdate(id, { $set: news }, { new: true });
+        return setNews;
+    }
 }

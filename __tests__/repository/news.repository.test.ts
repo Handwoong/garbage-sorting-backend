@@ -15,4 +15,15 @@ describe("NEWS 모델 접근", () => {
         expect(createdNews.url).toEqual("repositoryURL");
         expect(createdNews.title).toEqual("repositoryTitle");
     });
+
+    it("setNews는 뉴스를 수정한다.", async () => {
+        const tempNews = { url: "수정 전 url", title: "수정 전 title" };
+        const newNews = await News.createNews(tempNews);
+        const setNews = await News.setNews(newNews._id.toString(), {
+            url: "수정 후 url",
+            title: "수정 후 title",
+        });
+        expect(setNews?.url).toEqual("수정 후 url");
+        expect(setNews?.title).toEqual("수정 후 title");
+    });
 });

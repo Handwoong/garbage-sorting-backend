@@ -23,4 +23,14 @@ newsController.post(
     }),
 );
 
+newsController.patch(
+    "/news/:id",
+    wrapAsyncFunc(async (req, res, _next) => {
+        const { id } = req.params;
+        const news: INews = req.body;
+        const updatedNews = await newsService.updateNews(id, news);
+        res.status(STATUS_200_OK).json(updatedNews);
+    }),
+);
+
 export default newsController;

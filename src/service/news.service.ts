@@ -1,7 +1,7 @@
 import { News } from "@src/db";
-import { RequestError } from "@src/middlewares/errorHandler";
-import { STATUS_503_SERVICEUNAVAILABLE } from "@src/utils/statusCode";
 import { INews } from "@src/utils/types/news.interface";
+import { RequestError } from "@src/middlewares/errorHandler";
+import { STATUS_404_NOTFOUND, STATUS_503_SERVICEUNAVAILABLE } from "@src/utils/statusCode";
 
 export class newsService {
     static async getNewsList() {
@@ -17,5 +17,12 @@ export class newsService {
     static async addNews(news: INews) {
         const newNews = await News.createNews(news);
         return newNews;
+    }
+
+    static async updateNews(id: string, news: INews) {
+        const updateNews = await News.setNews(id, news);
+        if (!updateNews)
+            throw new RequestError("해당 뉴스가 존재하지 않습니다.", STATUS_404_NOTFOUND);
+        return updateNews;
     }
 }
