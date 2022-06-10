@@ -1,4 +1,4 @@
-image: node:16-buster
+image: node:latest
 
 stages:
     - build
@@ -21,6 +21,7 @@ build:
 
 test:
     stage: test
+    image: node:16-buster
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     dependencies:
         - build
