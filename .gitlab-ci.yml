@@ -26,9 +26,7 @@ test:
         - build
     script:
         - yarn test:ci
-    cache:
-        - paths:
-              - coverage/
+    cache: {}
     artifacts:
         paths:
             - coverage/
