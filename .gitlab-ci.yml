@@ -5,13 +5,11 @@ stages:
     - test
     - deploy
 
-before_script:
-    - apt-get install libcurl4
-
 build:
     stage: build
     script:
         - yarn
+        - apt-get install libcurl4
     cache: {}
     artifacts:
         expire_in: 1 days
@@ -21,7 +19,7 @@ build:
 
 test:
     stage: test
-    image: node:16-buster
+    image: node:15-buster
     coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
     dependencies:
         - build
