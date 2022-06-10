@@ -40,10 +40,5 @@
     },
     "_moduleAliases": {
         "@src": "src"
-    },
-    "config": {
-        "mongodbMemoryServer": {
-            "debug": "1"
-        }
     }
 }
