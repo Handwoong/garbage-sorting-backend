@@ -3,6 +3,10 @@ import app from "@src/app";
 
 const PORT = process.env.PORT || 5002;
 
-app.listen(PORT, () => {
-    console.log(`listening on port ${PORT}`);
+const server = app.listen(PORT, () => {
+    if (process.env.NODE_ENV !== "test") {
+        console.log(`listening on port ${PORT}`);
+    }
 });
+
+export default server;

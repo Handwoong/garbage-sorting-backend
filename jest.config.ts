@@ -11,6 +11,7 @@ export default async (): Promise<Config.InitialOptions> => {
 module.exports = {
     preset: "ts-jest",
     testEnvironment: "node",
+    testTimeout: 20000,
     setupFilesAfterEnv: ["<rootDir>/src/utils/setUpTests.ts"],
     collectCoverage: false,
     moduleNameMapper: {
@@ -25,7 +26,6 @@ module.exports = {
     transform: {
         "^.+\\.ts?$": "ts-jest",
     },
-    testTimeout: 15000,
     transformIgnorePatterns: ["<rootDir>/node_modules/"],
     moduleFileExtensions: [...defaults.moduleFileExtensions, "ts", "tsx"],
 };
