@@ -14,7 +14,9 @@ build:
     script:
         - yarn
         - apt-get install libcurl4
-    cache: {}
+    cache:
+        - paths:
+              - node_modules/
     artifacts:
         expire_in: 1 days
         when: on_success
