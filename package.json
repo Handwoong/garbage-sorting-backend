@@ -5,9 +5,9 @@
     "license": "MIT",
     "scripts": {
         "start": "ts-node-dev --respawn --transpile-only src/server.ts",
-        "test": "jest --setupFiles dotenv/config --detectOpenHandles --forceExit",
-        "test:ci": "jest --config ./jest.config.ts --collectCoverage --coverageDirectory=\"./coverage\" --ci --reporters=default --reporters=jest-junit --watchAll=false",
-        "coverage": "jest --coverage"
+        "test": "cross-env NODE_ENV=test jest --setupFiles dotenv/config --detectOpenHandles --forceExit",
+        "test:ci": "cross-env NODE_ENV=test jest --config ./jest.config.ts --collectCoverage --coverageDirectory=\"./coverage\" --ci --reporters=default --reporters=jest-junit --watchAll=false",
+        "coverage": "cross-env NODE_ENV=test jest --coverage"
     },
     "dependencies": {
         "@types/cors": "^2.8.12",
@@ -25,6 +25,7 @@
         "@types/supertest": "^2.0.12",
         "@typescript-eslint/eslint-plugin": "^5.27.0",
         "@typescript-eslint/parser": "^5.27.0",
+        "cross-env": "^7.0.3",
         "eslint": "^8.16.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-prettier": "^4.0.0",

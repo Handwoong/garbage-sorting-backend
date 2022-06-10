@@ -1,11 +1,7 @@
 import { Schema, model } from "mongoose";
+import { INews } from "@src/utils/types/news.interface";
 
-interface News {
-    url: string;
-    title: string;
-}
-
-const NewsSchema = new Schema<News>({
+const NewsSchema = new Schema<INews>({
     url: {
         type: String,
         required: true,
@@ -16,4 +12,4 @@ const NewsSchema = new Schema<News>({
     },
 });
 
-export const NewsModel = model<News>("News", NewsSchema);
+export const NewsModel = model<INews>("News", NewsSchema);

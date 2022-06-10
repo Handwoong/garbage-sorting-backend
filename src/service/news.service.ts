@@ -1,6 +1,7 @@
 import { News } from "@src/db";
 import { RequestError } from "@src/middlewares/errorHandler";
 import { STATUS_503_SERVICEUNAVAILABLE } from "@src/utils/statusCode";
+import { INews } from "@src/utils/types/news.interface";
 
 export class newsService {
     static async getNewsList() {
@@ -11,5 +12,10 @@ export class newsService {
                 STATUS_503_SERVICEUNAVAILABLE,
             );
         return newsList;
+    }
+
+    static async addNews(news: INews) {
+        const newNews = await News.createNews(news);
+        return newNews;
     }
 }
