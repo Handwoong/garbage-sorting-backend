@@ -2,7 +2,7 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import server from "@src/server";
 import { MongoMemoryServer } from "mongodb-memory-server";
-// jest.useRealTimers();
+jest.useRealTimers();
 
 const dbConnect = async () => {
     if (process.env.NODE_ENV === "test") {
@@ -20,7 +20,7 @@ const dbDisconnect = async () => {
 };
 
 beforeAll(async () => {
-    // jest.setTimeout(20000);
+    jest.setTimeout(30000);
     await dbConnect();
 });
 
