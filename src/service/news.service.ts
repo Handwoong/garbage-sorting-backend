@@ -5,24 +5,31 @@ import { STATUS_404_NOTFOUND, STATUS_503_SERVICEUNAVAILABLE } from "@src/utils/s
 
 export class newsService {
     static async getNewsList() {
-        const newsList = await News.findAllNews();
-        if (!newsList)
+        const foundNewsList = await News.findAll();
+        if (!foundNewsList)
             throw new RequestError(
                 "뉴스 목록을 가져올 수 없습니다.",
                 STATUS_503_SERVICEUNAVAILABLE,
             );
-        return newsList;
+        return foundNewsList;
     }
 
     static async addNews(news: INews) {
-        const newNews = await News.createNews(news);
-        return newNews;
+        const createdNews = await News.create(news);
+        return createdNews;
     }
 
     static async updateNews(id: string, news: INews) {
-        const updateNews = await News.setNews(id, news);
-        if (!updateNews)
-            throw new RequestError("해당 뉴스가 존재하지 않습니다.", STATUS_404_NOTFOUND);
-        return updateNews;
+        const updatedNews = await News.update(id, news);
+        if (!updatedNews)
+            throw new RequestError("해당 뉴스를 찾을 수 없습니다.", STATUS_404_NOTFOUND);
+        return updatedNews;
+    }
+
+    static async deleteNews(id: string) {
+        const deletedNews = await News.delete(id);
+        if (!deletedNews)
+            throw new RequestError("해당 뉴스를 찾을 수 없습니다.", STATUS_404_NOTFOUND);
+        return { message: "삭제가 완료되었습니다." };
     }
 }
