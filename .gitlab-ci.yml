@@ -1,9 +1,5 @@
 image: node:latest
 
-before_script:
-    - export MONGOMS_DOWNLOAD_URL=https://fastdl.mongodb.org/src/mongodb-src-r5.0.9.tar.gz
-    - export MONGOMS_VERSION=5.0.9
-
 stages:
     - build
     - test
