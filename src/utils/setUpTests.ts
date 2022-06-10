@@ -20,6 +20,7 @@ const dbDisconnect = async () => {
 };
 
 beforeAll(async () => {
+    jest.setTimeout(20000);
     await dbConnect();
 });
 
