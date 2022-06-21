@@ -80,8 +80,6 @@ export class QuizService {
 
             return { quizId, isCorrect };
         });
-        const quizSetResult = { result, score };
-
-        return quizSetResult;
+        return { result, score };
     }
 }

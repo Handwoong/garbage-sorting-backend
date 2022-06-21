@@ -3,19 +3,19 @@ import { Result } from "@src/models/interface";
 
 export class Quiz {
     static async findByQuizType(type: string) {
-        return await QuizModel.find({ type });
+        return QuizModel.find({ type });
     }
 
     static async findQuizById(quizId: string) {
-        return await QuizModel.findById(quizId);
+        return QuizModel.findById(quizId);
     }
 
     static async findQuizByWrongRate() {
-        return await QuizModel.find({}).sort({ "result.yesterday": -1 }).limit(3);
+        return QuizModel.find({}).sort({ "result.yesterday": -1 }).limit(3);
     }
 
     static async findAnswerByQuizType(type: string) {
-        return await QuizModel.find({ type }).select({ answer: 1 });
+        return QuizModel.find({ type }).select({ answer: 1 });
     }
 
     static async upsertQuizInfo(quizId: string, newResult: Result[] | Result) {

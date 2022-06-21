@@ -11,7 +11,7 @@ const quizController = Router();
 
 quizController.get(
     "/quizzes",
-    wrapAsyncFunc(async (req, res, next) => {
+    wrapAsyncFunc(async (req, res, _next) => {
         /*  #swagger.tags = ["quiz"]
             #swagger.description = "타입별 퀴즈목록 조회" 
             #swagger.parameters['queryString'] = {
@@ -32,7 +32,7 @@ quizController.get(
 
 quizController.get(
     "/quizzes/wrong",
-    wrapAsyncFunc(async (req, res, next) => {
+    wrapAsyncFunc(async (req, res, _next) => {
         /*  #swagger.tags = ["quiz"]
             #swagger.description = "오답률 상위 3개 퀴즈정보 조회" 
             
@@ -48,11 +48,11 @@ quizController.get(
 quizController.get(
     "/quizzes/:id",
     paramsValidator(identifierSchema),
-    wrapAsyncFunc(async (req, res, next) => {
+    wrapAsyncFunc(async (req, res, _next) => {
         /*  #swagger.tags = ["quiz"]
             #swagger.description = "quizId에 해당하는 퀴즈정보 조회" 
             #swagger.parameters['id'] = {
-                in: 'params',
+                in: 'path',
                 description: '조회하고자 하는 퀴즈의 quizId를 경로 엔드포인트에 추가',
                 required: true,
                 schema: { $ref: "#/definitions/QuizId" }
@@ -72,11 +72,11 @@ quizController.post(
     "/quizzes/:id/submission",
     paramsValidator(identifierSchema),
     bodyValidator(quizSchema),
-    wrapAsyncFunc(async (req, res, next) => {
+    wrapAsyncFunc(async (req, res, _next) => {
         /*  #swagger.tags = ["quiz"]
             #swagger.description = "quizId에 해당하는 퀴즈채점" 
             #swagger.parameters['id'] = {
-                in: 'params',
+                in: 'path',
                 description: '채점하고자 하는 퀴즈의 quizId를 경로 엔드포인트에 추가',
                 required: true,
                 schema: { $ref: "#/definitions/QuizId" }
@@ -102,7 +102,7 @@ quizController.post(
 quizController.post(
     "/quizzes/submission",
     bodyValidator(quizSetSchema),
-    wrapAsyncFunc(async (req, res, next) => {
+    wrapAsyncFunc(async (req, res, _next) => {
         /*  #swagger.tags = ["quiz"]
             #swagger.description = "퀴즈셋 채점" 
             #swagger.parameters['퀴즈셋정보'] = {

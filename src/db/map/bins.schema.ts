@@ -1,17 +1,7 @@
 import { Schema, model } from "mongoose";
+import { IBins } from "@src/models/interface";
 
-interface Bins {
-    region: string;
-    roads: string;
-    details: string;
-    points: string;
-    address: string;
-    type: string[];
-    x: string;
-    y: string;
-}
-
-const binsSchema = new Schema<Bins>(
+const binsSchema = new Schema<IBins>(
     {
         region: {
             type: String,
@@ -50,4 +40,4 @@ const binsSchema = new Schema<Bins>(
     },
 );
 
-export const BinsModel = model<Bins>("Bins", binsSchema);
+export const BinsModel = model<IBins>("Bins", binsSchema);

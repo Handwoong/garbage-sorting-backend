@@ -1,7 +1,7 @@
 import app from "@src/app";
 import request from "supertest";
 import { INews } from "@src/models/interface";
-import { newsService } from "@src/service/news.service";
+import { NewsService } from "@src/service/news.service";
 import { STATUS_200_OK, STATUS_201_CREATED } from "@src/utils/statusCode";
 
 describe("NEWS API", () => {
@@ -20,7 +20,7 @@ describe("NEWS API", () => {
     });
 
     it("NEWS PUT/ 뉴스를 수정한다.", async () => {
-        const news = await newsService.addNews(tempNews);
+        const news = await NewsService.addNews(tempNews);
         const res = await request(app)
             .put(`/news/${news._id}`)
             .send({ ...tempNews, url: "https://elice-team10" });
@@ -31,7 +31,7 @@ describe("NEWS API", () => {
     });
 
     it("NEWS DELETE/ 뉴스를 삭제한다.", async () => {
-        const targetNews = await newsService.addNews(tempNews);
+        const targetNews = await NewsService.addNews(tempNews);
         const res = await request(app).delete(`/news/${targetNews._id}`);
         expect(res.status).toBe(STATUS_200_OK);
         expect(res.body.message).toEqual("삭제가 완료되었습니다.");

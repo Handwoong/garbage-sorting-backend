@@ -12,7 +12,7 @@ const doc = {
         title: "분리수ZIP 서비스 API",
         description: "엘리스 AI 트랙 4기 - AI Project 10팀 TOPTEN 프로젝트 문서.",
     },
-    host: "localhost:5001",
+    host: "home.handwoong.com:5001",
     schemes: ["http"],
     securityDefinitions: {
         // * JWT 토큰 설정을 위한 코드
@@ -36,6 +36,14 @@ const doc = {
             name: "trash",
             description: "쓰레기 데이터 API",
         },
+        {
+            name: "user",
+            description: "유저 데이터 API",
+        },
+        {
+            name: "bins",
+            description: "쓰레기통위치 데이터 API",
+        },
     ],
     definitions: {
         NewsId: "news/{newsId}",
@@ -46,6 +54,23 @@ const doc = {
         NewsPutBody: { url: "http://", title: "수정된제목" },
         NewsPutResponse: { _id: "id", url: "http://", title: "수정된제목" },
         DeleteResponse: { message: "삭제가 완료되었습니다." },
+        UserId: "users/{userId}",
+        UserGetResponse: {
+            _id: "62acd51598886269f298521e",
+            email: "test@test.com",
+            username: "테스트",
+            __v: 0,
+        },
+        UserRequest: {
+            email: "test@test.com",
+            password: "test1234",
+            username: "테스트유저",
+        },
+        UserLoginRequest: {
+            email: "test@test.com",
+            password: "test1234",
+        },
+        UserLogoutResponse: { message: "정상적으로 로그아웃이 완료되었습니다." },
         TrashId: "trash/{trashId}",
         TrashGetQuery: "?search={}&category={}&page={ID}&limit={5}",
         TrashGetResponse: [
@@ -239,6 +264,25 @@ const doc = {
                 __v: 0,
             },
         ],
+        BinsQuery: "?search=종로구&category=삼청로",
+        BinsLocation: [
+            {
+                _id: "62ab6bef76d07566b0026be9",
+                region: "종로구",
+                roads: "삼청로",
+                details: "삼청로1 맞은편 인도",
+                points: "광장, 공원 등 다중집합장소",
+                address: "서울 종로구 삼청로 1",
+                type: ["일반", "재활용"],
+                x: "126.9794122718",
+                y: "37.5760952177",
+                __v: 0,
+            },
+        ],
+        LocationList: {
+            uniqueRegionList: ["종로구", "용산구", "성동구", "광진구", "중랑구"],
+            uniqueRoadList: ["자하문로", "삼청로", "원효로", "마장로", "왕십리로", "마조로"],
+        },
     },
 };
 

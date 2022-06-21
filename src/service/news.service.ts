@@ -4,7 +4,7 @@ import { STATUS_404_NOTFOUND } from "@src/utils/statusCode";
 import { RequestError } from "@src/middlewares/errorHandler";
 import { FilterQuery, INews } from "@src/models/interface";
 
-export class newsService {
+export class NewsService {
     static async getNewsList(query: FilterQuery) {
         const filterList = ["title"];
         const { filteredQuery, limit } = createFilterQuery(query, filterList);

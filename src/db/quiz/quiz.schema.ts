@@ -1,24 +1,8 @@
 import { Schema, model } from "mongoose";
 import { Answer } from "@src/models/interface";
+import { IQuiz } from "@src/models/interface";
 
-interface Result {
-    date: Date;
-    totalUser: number;
-    wrong: number;
-    yesterday: number;
-}
-
-interface Quiz {
-    title: string;
-    description: string;
-    options: string[];
-    answer: string;
-    result: Result[];
-    type: string;
-    image: string;
-}
-
-const QuizSchema = new Schema<Quiz>(
+const QuizSchema = new Schema<IQuiz>(
     {
         title: {
             type: String,
@@ -50,9 +34,6 @@ const QuizSchema = new Schema<Quiz>(
         },
         image: {
             type: String,
-            required: true,
-            default:
-                "https://images.unsplash.com/photo-1557318041-1ce374d55ebf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
         },
     },
     {
@@ -60,4 +41,4 @@ const QuizSchema = new Schema<Quiz>(
     },
 );
 
-export const QuizModel = model<Quiz>("Quiz", QuizSchema);
+export const QuizModel = model<IQuiz>("Quiz", QuizSchema);

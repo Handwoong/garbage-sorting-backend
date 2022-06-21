@@ -5,7 +5,7 @@
     "description": "엘리스 AI 트랙 4기 - AI Project 10팀 TOPTEN 프로젝트 문서.",
     "version": "1.0.0"
   },
-  "host": "localhost:5001",
+  "host": "home.handwoong.com:5001",
   "basePath": "/",
   "tags": [
     {
@@ -19,6 +19,14 @@
     {
       "name": "trash",
       "description": "쓰레기 데이터 API"
+    },
+    {
+      "name": "user",
+      "description": "유저 데이터 API"
+    },
+    {
+      "name": "bins",
+      "description": "쓰레기통위치 데이터 API"
     }
   ],
   "schemes": [
@@ -42,9 +50,46 @@
     },
     "/bins": {
       "get": {
-        "description": "",
+        "tags": [
+          "bins"
+        ],
+        "description": "조건에 따른 쓰레기통 위치정보 조회",
+        "parameters": [
+          {
+            "name": "queryString",
+            "in": "query",
+            "description": "자치구명, 도로명 조건에 따른 쓰레기통 위치목록 조회",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BinsQuery"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BinsLocation"
+            },
+            "description": "요청조건에 해당하는 쓰레기통 위치목록 조회"
+          }
+        }
+      }
+    },
+    "/bins/locations": {
+      "get": {
+        "tags": [
+          "bins"
+        ],
+        "description": "자치구명, 도로명 리스트 조회",
         "parameters": [],
-        "responses": {}
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/LocationList"
+            },
+            "description": "유니크한 자치구명, 도로명 리스트 조회"
+          }
+        }
       }
     },
     "/news": {
@@ -217,12 +262,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "id",
-            "in": "params",
-            "required": true,
             "type": "string",
             "description": "조회하고자 하는 퀴즈의 quizId를 경로 엔드포인트에 추가",
             "schema": {
@@ -250,12 +289,6 @@
           {
             "name": "id",
             "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "id",
-            "in": "params",
             "required": true,
             "type": "string",
             "description": "채점하고자 하는 퀴즈의 quizId를 경로 엔드포인트에 추가",
@@ -467,6 +500,166 @@
           }
         }
       }
+    },
+    "/users/current": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "description": "현재 유저 상태 조회",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/UserGetResponse"
+            },
+            "description": "현재 유저 정보를 반환\n로그인중이 아니라면 **401** 상태코드"
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "description": "유저 로그아웃 **로그인 필수**",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/UserLogoutResponse"
+            },
+            "description": "로그아웃 여부를 반환"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "description": "한명의 유저 조회",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "얻고자 하는 유저정보의 ID",
+            "schema": {
+              "$ref": "#/definitions/UserId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/UserGetResponse"
+            },
+            "description": "한명의 유저 정보를 반환"
+          }
+        }
+      }
+    },
+    "/users/register": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "description": "유저 생성",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "생성하고자 하는 유저의 정보를 body에 담아 요청\n  **email** 이메일 **필수**\n  **password** 비밀번호 **필수** 8자리 이상\n  **username** 닉네임 **필수** 3자리 이상  ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/UserGetResponse"
+            },
+            "description": "생성된 유저 정보 반환"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "description": "유저 로그인",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "유저 로그인 정보를 담아 요청\n  **email** 이메일 **필수**\n  **password** 비밀번호 **필수** 8자리 이상\n  ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLoginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/UserGetResponse"
+            },
+            "description": "로그인 유저 정보 반환"
+          }
+        }
+      }
+    },
+    "/users/update": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "description": "유저 수정",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "수정하고자 하는 유저의 정보를 body에 담아 요청\n  **로그인 필수**\n  **email** 이메일 **필수** 변경 불가\n  **password** 비밀번호 **선택**\n  **username** 닉네임 **선택**  ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/UserGetResponse"
+            },
+            "description": "수정된 유저 정보 반환"
+          }
+        }
+      }
+    },
+    "/users/delete": {
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "description": "유저 삭제 **로그인 필수**",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/DeleteResponse"
+            },
+            "description": "삭제 메시지"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -564,6 +757,70 @@
         "message": {
           "type": "string",
           "example": "삭제가 완료되었습니다."
+        }
+      }
+    },
+    "UserId": {
+      "type": "string",
+      "example": "users/{userId}"
+    },
+    "UserGetResponse": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "62acd51598886269f298521e"
+        },
+        "email": {
+          "type": "string",
+          "example": "test@test.com"
+        },
+        "username": {
+          "type": "string",
+          "example": "테스트"
+        },
+        "__v": {
+          "type": "number",
+          "example": 0
+        }
+      }
+    },
+    "UserRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "test@test.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "test1234"
+        },
+        "username": {
+          "type": "string",
+          "example": "테스트유저"
+        }
+      }
+    },
+    "UserLoginRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "test@test.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "test1234"
+        }
+      }
+    },
+    "UserLogoutResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "정상적으로 로그아웃이 완료되었습니다."
         }
       }
     },
@@ -1134,6 +1391,96 @@
           "__v": {
             "type": "number",
             "example": 0
+          }
+        }
+      }
+    },
+    "BinsQuery": {
+      "type": "string",
+      "example": "?search=종로구&category=삼청로"
+    },
+    "BinsLocation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "62ab6bef76d07566b0026be9"
+          },
+          "region": {
+            "type": "string",
+            "example": "종로구"
+          },
+          "roads": {
+            "type": "string",
+            "example": "삼청로"
+          },
+          "details": {
+            "type": "string",
+            "example": "삼청로1 맞은편 인도"
+          },
+          "points": {
+            "type": "string",
+            "example": "광장, 공원 등 다중집합장소"
+          },
+          "address": {
+            "type": "string",
+            "example": "서울 종로구 삼청로 1"
+          },
+          "type": {
+            "type": "array",
+            "example": [
+              "일반",
+              "재활용"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "x": {
+            "type": "string",
+            "example": "126.9794122718"
+          },
+          "y": {
+            "type": "string",
+            "example": "37.5760952177"
+          },
+          "__v": {
+            "type": "number",
+            "example": 0
+          }
+        }
+      }
+    },
+    "LocationList": {
+      "type": "object",
+      "properties": {
+        "uniqueRegionList": {
+          "type": "array",
+          "example": [
+            "종로구",
+            "용산구",
+            "성동구",
+            "광진구",
+            "중랑구"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "uniqueRoadList": {
+          "type": "array",
+          "example": [
+            "자하문로",
+            "삼청로",
+            "원효로",
+            "마장로",
+            "왕십리로",
+            "마조로"
+          ],
+          "items": {
+            "type": "string"
           }
         }
       }

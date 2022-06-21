@@ -1,5 +1,6 @@
 import { FilterQuery } from "@src/models/interface";
 import { Bins } from "@src/repository/bins.repository";
+import { IBins } from "@src/models/interface";
 import { RequestError } from "@src/middlewares/errorHandler";
 import { STATUS_404_NOTFOUND } from "@src/utils/statusCode";
 
@@ -25,5 +26,21 @@ export class BinsService {
             );
         }
         return locationList;
+    }
+
+    static async getLocationList() {
+        const locations = await Bins.findAll();
+        const uniqueRegionList: string[] = [];
+        const uniqueRoadList: string[] = [];
+        locations.forEach((obj: IBins) => {
+            if (!uniqueRegionList.includes(obj.region)) {
+                uniqueRegionList.push(obj.region);
+            }
+            if (!uniqueRoadList.includes(obj.roads)) {
+                uniqueRoadList.push(obj.roads);
+            }
+        });
+
+        return { uniqueRegionList, uniqueRoadList };
     }
 }

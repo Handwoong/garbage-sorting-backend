@@ -36,8 +36,7 @@ async function initializeMemoryServer() {
         };
         await QuizModel.create(data);
     }
-    const res = await QuizModel.find({ type: "multipleChoice" });
-    return res;
+    return QuizModel.find({ type: "multipleChoice" });
 }
 
 describe("Quiz API Test", () => {

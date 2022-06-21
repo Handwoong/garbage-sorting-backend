@@ -1,5 +1,5 @@
 import { TrashModel } from "@src/db/trash/trash.schema";
-import { MongooseQuery, ITrash } from "@src/models/interface";
+import { ITrash, MongooseQuery } from "@src/models/interface";
 
 export class Trash {
     static async find({ filteredQuery, limit }: { filteredQuery: MongooseQuery; limit: number }) {
@@ -7,25 +7,18 @@ export class Trash {
     }
 
     static async findOne(id: string) {
-        return await TrashModel.findById(id);
+        return TrashModel.findById(id);
     }
 
     static async create(trashInfo: ITrash) {
-        const createdTrash = await TrashModel.create(trashInfo);
-        return createdTrash;
+        return TrashModel.create(trashInfo);
     }
 
     static async update(id: string, trashInfo: ITrash) {
-        const updatedTrash = await TrashModel.findByIdAndUpdate(
-            id,
-            { $set: trashInfo },
-            { new: true },
-        );
-        return updatedTrash;
+        return TrashModel.findByIdAndUpdate(id, { $set: trashInfo }, { new: true });
     }
 
     static async delete(id: string) {
-        const deletedTrash = await TrashModel.findByIdAndDelete(id);
-        return deletedTrash;
+        return TrashModel.findByIdAndDelete(id);
     }
 }

@@ -3,7 +3,7 @@ import wrapAsyncFunc from "@src/utils/catchAsync";
 import { INews } from "@src/models/interface";
 import { newsSchema } from "@src/utils/bodySchema";
 import { identifierSchema } from "@src/utils/paramsSchema";
-import { newsService } from "@src/service/news.service";
+import { NewsService } from "@src/service/news.service";
 import { bodyValidator, paramsValidator } from "@src/middlewares/requestValidator";
 import { STATUS_200_OK, STATUS_201_CREATED } from "@src/utils/statusCode";
 
@@ -26,7 +26,7 @@ newsController.get(
             schema: { "$ref": "#/definitions/NewsGetResponse" },
             description: "뉴스 목록을 배열형태로 반환" } */
 
-        const newsList = await newsService.getNewsList(req.query);
+        const newsList = await NewsService.getNewsList(req.query);
         res.status(STATUS_200_OK).json(newsList);
     }),
 );
@@ -48,7 +48,7 @@ newsController.post(
             description: "생성된 뉴스 정보 반환" } */
 
         const newsInfo: INews = req.body;
-        const createdNews = await newsService.addNews(newsInfo);
+        const createdNews = await NewsService.addNews(newsInfo);
         res.status(STATUS_201_CREATED).json(createdNews);
     }),
 );
@@ -78,7 +78,7 @@ newsController.put(
 
         const { id } = req.params;
         const newsInfo: INews = req.body;
-        const updatedNews = await newsService.updateNews(id, newsInfo);
+        const updatedNews = await NewsService.updateNews(id, newsInfo);
         res.status(STATUS_200_OK).json(updatedNews);
     }),
 );
@@ -100,7 +100,7 @@ newsController.delete(
             description: "삭제 메시지" } */
 
         const { id } = req.params;
-        const deleteResult = await newsService.deleteNews(id);
+        const deleteResult = await NewsService.deleteNews(id);
         res.status(STATUS_200_OK).json(deleteResult);
     }),
 );

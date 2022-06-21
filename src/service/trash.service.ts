@@ -4,7 +4,7 @@ import { RequestError } from "@src/middlewares/errorHandler";
 import { FilterQuery, ITrash } from "@src/models/interface";
 import { STATUS_404_NOTFOUND } from "@src/utils/statusCode";
 
-export class trashService {
+export class TrashService {
     static async getTrashList(query: FilterQuery) {
         const filterList = ["title", "category", "kind"];
         const { filteredQuery, limit } = createFilterQuery(query, filterList);

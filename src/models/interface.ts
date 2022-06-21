@@ -63,3 +63,31 @@ export interface Result {
     wrong: number;
     yesterday: number;
 }
+
+export interface IUser {
+    email: string;
+    username?: string;
+    password?: string;
+    token?: string;
+}
+
+export interface IBins {
+    region: string;
+    roads: string;
+    details: string;
+    points: string;
+    address: string;
+    type: string[];
+    x: string;
+    y: string;
+}
+
+export interface IQuiz {
+    title: string;
+    description: string;
+    options: string[];
+    answer: string;
+    result: Result[];
+    type: string;
+    image: string;
+}

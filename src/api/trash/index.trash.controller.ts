@@ -4,7 +4,7 @@ import { ITrash } from "@src/models/interface";
 import { trashSchema } from "@src/utils/bodySchema";
 import { identifierSchema } from "@src/utils/paramsSchema";
 import { trashCategories } from "@src/utils/constans";
-import { trashService } from "@src/service/trash.service";
+import { TrashService } from "@src/service/trash.service";
 import { bodyValidator, paramsValidator } from "@src/middlewares/requestValidator";
 import { STATUS_200_OK, STATUS_201_CREATED } from "@src/utils/statusCode";
 
@@ -28,7 +28,7 @@ trashController.get(
             schema: { "$ref": "#/definitions/TrashGetResponse" },
             description: "쓰레기 목록을 배열형태로 반환" } */
 
-        const trashList = await trashService.getTrashList(req.query);
+        const trashList = await TrashService.getTrashList(req.query);
         res.status(STATUS_200_OK).json(trashList);
     }),
 );
@@ -64,7 +64,7 @@ trashController.get(
             description: "쓰레기 정보를 반환" } */
 
         const { id } = req.params;
-        const trashInfo = await trashService.getByTrash(id);
+        const trashInfo = await TrashService.getByTrash(id);
         res.status(STATUS_200_OK).json(trashInfo);
     }),
 );
@@ -86,7 +86,7 @@ trashController.post(
             description: "생성된 쓰레기 정보 반환" } */
 
         const trashInfo: ITrash = req.body;
-        const createdTrash = await trashService.addTrash(trashInfo);
+        const createdTrash = await TrashService.addTrash(trashInfo);
         res.status(STATUS_201_CREATED).json(createdTrash);
     }),
 );
@@ -116,7 +116,7 @@ trashController.put(
 
         const { id } = req.params;
         const trashInfo: ITrash = req.body;
-        const updatedTrash = await trashService.updateTrash(id, trashInfo);
+        const updatedTrash = await TrashService.updateTrash(id, trashInfo);
         res.status(STATUS_200_OK).json(updatedTrash);
     }),
 );
@@ -138,7 +138,7 @@ trashController.delete(
             description: "삭제 메시지" } */
 
         const { id } = req.params;
-        const deleteResult = await trashService.deleteTrash(id);
+        const deleteResult = await TrashService.deleteTrash(id);
         res.status(STATUS_200_OK).json(deleteResult);
     }),
 );
