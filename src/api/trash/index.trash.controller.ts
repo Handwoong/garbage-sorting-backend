@@ -37,7 +37,6 @@ trashController.get(
     }),
 );
 
-// 임시API, 모델을 생성해야할지 고민 필요
 trashController.get(
     "/trash/categories",
     wrapAsyncFunc(async (_req, res, _next) => {
@@ -113,7 +112,7 @@ trashController.post(
             #swagger.responses[200] = {
             schema: { "$ref": "#/definitions/TrashAiResponse" },
             description: "AI 분석결과를 반환" } */
-
+        7;
         if (!req.file) throw new RequestError();
         const aiTrashResult = await TrashService.aiTrash(req.file.path);
         res.status(STATUS_200_OK).json(aiTrashResult);
@@ -135,7 +134,7 @@ trashController.put(
             }
             #swagger.parameters['body'] = {
                 in: 'body',
-                description: '수정하고자 하는 뉴스의 정보를 body에 담아 요청',
+                description: '수정하고자 하는 쓰레기의 정보를 body에 담아 요청',
                 required: true,
                 schema: { $ref: "#/definitions/TrashPutRequest" }
             }

@@ -18,9 +18,22 @@ export const userUpdateSchema = Joi.object({
     password: Joi.string().min(8),
 });
 
+export const userScoreSchema = Joi.object({
+    score: Joi.number().required(),
+});
+
 export const newsSchema = Joi.object({
     url: Joi.string().required(),
     title: Joi.string().required(),
+});
+
+export const postSchema = Joi.object({
+    title: Joi.string().required(),
+    content: Joi.string().required(),
+});
+
+export const commentSchema = Joi.object({
+    content: Joi.string().required(),
 });
 
 export const trashSchema = Joi.object({

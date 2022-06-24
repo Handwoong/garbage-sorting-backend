@@ -7,7 +7,7 @@ export const createFilterQuery = (query: FilterQuery, filterList: string[]) => {
     const filteredQuery: MongooseQuery = {};
 
     if (page) {
-        Object.assign(filteredQuery, { $and: [{ _id: { $gt: page } }] });
+        Object.assign(filteredQuery, { $and: [{ _id: { $lt: page } }] });
     }
 
     if (!search && !category) {

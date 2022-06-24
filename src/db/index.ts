@@ -1,11 +1,12 @@
-import mongoose from "mongoose";
 import "dotenv/config";
+import mongoose from "mongoose";
 import { User } from "@src/repository/user.repository";
 import { News } from "@src/repository/news.repository";
 import { Quiz } from "@src/repository/quiz.repository";
-import { Trash } from "@src/repository/trash.repository";
 import { Bins } from "@src/repository/bins.repository";
-import { Robot } from "@src/repository/robot.repository";
+import { Post } from "@src/repository/post.repository";
+import { Trash } from "@src/repository/trash.repository";
+import { Comment } from "@src/repository/comment.repository";
 
 const DB_URL =
     process.env.MONGODB_URL ||
@@ -21,4 +22,4 @@ if (process.env.NODE_ENV !== "test") {
     );
 }
 
-export { User, Quiz, Trash, News, Bins, Robot };
+export { User, Quiz, Trash, News, Bins, Post, Comment };

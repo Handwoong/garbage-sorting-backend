@@ -10,6 +10,10 @@ export class User {
         return UserModel.findOne({ email });
     }
 
+    static async findByRanking() {
+        return UserModel.find({}).sort({ topscore: -1 }).limit(10).select("-password -token");
+    }
+
     static async isEmailExist(email: string) {
         return UserModel.exists({ email });
     }
@@ -20,7 +24,7 @@ export class User {
 
     static async update(id: string, userInfo: Partial<IUser>) {
         return UserModel.findByIdAndUpdate(id, { $set: userInfo }, { new: true }).select(
-            "-password",
+            "-password -token",
         );
     }
 

@@ -8,7 +8,8 @@ import newsController from "@src/api/news/index.news.controller";
 import quizController from "@src/api/quiz/index.quiz.controller";
 import trashController from "@src/api/trash/index.trash.controller";
 import binsController from "@src/api/map/index.bins.controller";
-import robotController from "@src/api/map/index.robot.controller";
+import postController from "@src/api/post/index.post.controller";
+import commentController from "@src/api/comment/index.comment.controller";
 
 export const indexController = (app: Express) => {
     app.use(userController);
@@ -16,7 +17,8 @@ export const indexController = (app: Express) => {
     app.use(quizController);
     app.use(trashController);
     app.use(binsController);
-    app.use(robotController);
+    app.use(postController);
+    app.use(commentController);
     app.get("/", (_req, res) => {
         res.redirect("/swagger");
     });

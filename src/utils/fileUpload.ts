@@ -17,7 +17,7 @@ cloudinary.config({
 const multerOpts: cloudinaryOptions = {
     cloudinary: cloudinary,
     params: {
-        folder: "Profile",
+        folder: "bunrisuzip",
         allowedFormats: ["jpeg", "jpg", "png"],
     },
 };

@@ -4,7 +4,12 @@ import { UserService } from "@src/service/user.service";
 import { authRequired } from "@src/middlewares/authRequired";
 import { bodyValidator } from "@src/middlewares/requestValidator";
 import { STATUS_200_OK, STATUS_201_CREATED } from "@src/utils/statusCode";
-import { userLoginSchema, userRegisterSchema, userUpdateSchema } from "@src/utils/bodySchema";
+import {
+    userLoginSchema,
+    userRegisterSchema,
+    userUpdateSchema,
+    userScoreSchema,
+} from "@src/utils/bodySchema";
 
 const userController = Router();
 
@@ -40,6 +45,20 @@ userController.get(
         res.clearCookie("refreshToken");
         res.clearCookie("currentUserId");
         res.status(STATUS_200_OK).json({ message: "정상적으로 로그아웃이 완료되었습니다." });
+    }),
+);
+
+userController.get(
+    "/users/rank",
+    wrapAsyncFunc(async (req, res, _next) => {
+        /*  #swagger.tags = ["user"]
+            #swagger.description = "유저들의 미니게임 랭킹"
+            #swagger.responses[200] = {
+            schema: { "$ref": "#/definitions/UserRankingResponse" },
+            description: "미니게임 랭킹 목록을 반환" } */
+
+        const rankingList = await UserService.getByRanking();
+        res.status(STATUS_200_OK).json(rankingList);
     }),
 );
 
@@ -140,6 +159,33 @@ userController.put(
         const { currentUserId } = req.cookies;
         const updatedUser = await UserService.updateUser(currentUserId, req.body);
         res.status(STATUS_200_OK).json(updatedUser);
+    }),
+);
+
+userController.put(
+    "/users/score",
+    authRequired,
+    bodyValidator(userScoreSchema),
+    wrapAsyncFunc(async (req, res, _next) => {
+        /*  #swagger.tags = ["user"]
+            #swagger.description = "유저의 미니게임 점수 갱신"
+            #swagger.parameters['body'] = {
+                in: 'body',
+                description: '수정하고자 하는 유저의 정보를 body에 담아 요청\n
+                    **로그인 필수**\n
+                    **score** 점수 **필수**
+                ',
+                required: true,
+                schema: { $ref: "#/definitions/UserScoreRequest" }
+            }
+            #swagger.responses[200] = {
+            schema: { "$ref": "#/definitions/UserScoreResponse" },
+            description: "점수 갱신 메시지 반환" } */
+
+        const { score } = req.body;
+        const { currentUserId } = req.cookies;
+        const updatedScore = await UserService.updateScore(currentUserId, +score);
+        res.status(STATUS_200_OK).json(updatedScore);
     }),
 );
 

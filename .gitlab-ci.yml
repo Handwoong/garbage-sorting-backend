@@ -8,6 +8,7 @@ before_script:
     - echo $JWT_SECRET_KEY
     - export MONGOMS_DOWNLOAD_URL=https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-debian10-4.4.1.tgz
     - export MONGOMS_VERSION=4.4.
+    - export NODE_OPTIONS=--max_old_space_size=4096
 
 build:
     stage: build

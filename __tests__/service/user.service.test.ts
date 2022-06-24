@@ -90,6 +90,17 @@ describe("USER SERVICE ERROR HANDLING", () => {
         }
     });
 
+    it("USER SCORE 갱신 시 사용자를 못찾으면 에러가 발생한다.", async () => {
+        User.findById = jest.fn().mockResolvedValue(null);
+        try {
+            await UserService.updateScore("id", 50);
+        } catch (err: any) {
+            expect(err).toBeInstanceOf(RequestError);
+            expect(err.status).toBe(STATUS_400_BADREQUEST);
+            expect(err.message).toBe("해당 사용자를 찾을 수 없습니다.");
+        }
+    });
+
     it("USER를 삭제 시 사용자를 못찾으면 에러가 발생한다.", async () => {
         User.delete = jest.fn().mockResolvedValue(null);
         try {

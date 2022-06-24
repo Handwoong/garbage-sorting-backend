@@ -35,6 +35,14 @@ describe("USER API", () => {
         expect(res.body.password).toBeUndefined();
     });
 
+    it("USER 점수에 따른 랭킹을 조회한다.", async () => {
+        const createdUser = await UserService.addUser(tempUser);
+        const res = await request(app).get(`/users/rank`);
+        expect(res.status).toBe(STATUS_200_OK);
+        expect(res.body[0].email).toEqual(createdUser.email);
+        expect(res.body[0].username).toEqual(createdUser.username);
+    });
+
     it("USER REGISTER 유저를 생성한다.", async () => {
         const res = await request(app).post("/users/register").send(tempUser);
         expect(res.status).toBe(STATUS_201_CREATED);
@@ -74,6 +82,18 @@ describe("USER API", () => {
             .send({ email: createdUser.email, username: "updateName", password: "updatePassword" });
         expect(res.status).toBe(STATUS_200_OK);
         expect(res.body.username).toEqual("updateName");
+    });
+
+    it("USER SCORE PUT/ 유저 미니게임 점수를 갱신한다.", async () => {
+        const createdUser = await UserService.addUser(tempUser);
+        const accessToken = createAccessToken(createdUser._id);
+        const refreshToken = createRefreshToken();
+        const res = await request(app)
+            .put("/users/score")
+            .set("Cookie", [`accessToken=${accessToken}`, `refreshToken=${refreshToken}`])
+            .send({ score: 80 });
+        expect(res.status).toBe(STATUS_200_OK);
+        expect(res.body.message).toEqual("점수 갱신이 완료되었습니다.");
     });
 
     it("USER DELETE 유저를 삭제한다.", async () => {

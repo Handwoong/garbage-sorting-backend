@@ -18,6 +18,10 @@ export class UserService {
         return foundUser;
     }
 
+    static async getByRanking() {
+        return User.findByRanking();
+    }
+
     static async addUser(userInfo: IUser) {
         const { email, password } = userInfo;
         const foundEmail = await User.isEmailExist(email);
@@ -56,6 +60,15 @@ export class UserService {
         const updatedUser = await User.update(id, { username, password: userInfo.password });
         if (!updatedUser) throw new RequestError("해당 사용자를 찾을 수 없습니다.");
         return updatedUser;
+    }
+
+    static async updateScore(id: string, score: number) {
+        const currentUser = await User.findById(id);
+        if (!currentUser) throw new RequestError("해당 사용자를 찾을 수 없습니다.");
+        if ((currentUser.topscore as number) < score) {
+            await User.update(id, { topscore: score });
+        }
+        return { message: "점수 갱신이 완료되었습니다." };
     }
 
     static async deleteUser(id: string) {

@@ -17,6 +17,10 @@ const UserSchema = new Schema<IUser>({
         type: String,
         required: true,
     },
+    topscore: {
+        type: Number,
+        default: 0,
+    },
     token: {
         type: String,
     },

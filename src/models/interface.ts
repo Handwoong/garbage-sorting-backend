@@ -1,3 +1,5 @@
+import { Schema } from "mongoose";
+
 export interface INews {
     url: string;
     title: string;
@@ -86,6 +88,7 @@ export interface IUser {
     email: string;
     username?: string;
     password?: string;
+    topscore?: number;
     token?: string;
 }
 
@@ -110,8 +113,14 @@ export interface IQuiz {
     image: string;
 }
 
-export interface IRobot {
-    name: string;
-    address: string;
-    location: object;
+export interface IPost {
+    title: string;
+    author?: IUser;
+    content: string;
+    comments?: Schema.Types.ObjectId[];
+}
+
+export interface IComment extends Schema.Types.ObjectId {
+    author?: IUser;
+    content: string;
 }
