@@ -42,6 +42,18 @@ class PetAiResult extends AiResult {
     }
 }
 
+class CartonAiResult extends AiResult {
+    constructor() {
+        super("종이팩", "종이팩", ["종이팩", "뚜껑", "빨대"], ["내용물을 비운 뒤 세척"]);
+    }
+
+    setThrowAway(idx: number): void {
+        THROW_AWAY.CARTON[idx].map((throwAway) => {
+            this.throwAway.push(throwAway);
+        });
+    }
+}
+
 function petAiResult(aiResponse: IAiResponse) {
     const resultTemplate = new PetAiResult();
     const { 6: resPetBody, 7: resPetHead, 8: resPetLabel } = aiResponse;
@@ -49,34 +61,10 @@ function petAiResult(aiResponse: IAiResponse) {
     return resultTemplate;
 }
 
-function cartonAiResult(aiTarget: any) {
-    const { 1: resBody, 2: resHead, 3: resStraw } = aiTarget;
-    const resultTemplate = {
-        title: "종이팩",
-        kind: "종이팩",
-        section: [
-            { title: "종이팩", score: 0 },
-            { title: "뚜껑", score: 0 },
-            { title: "빨대", score: 0 },
-        ],
-        throwAway: ["내용물을 비운 뒤 세척"],
-    };
-
-    if (resStraw) {
-        resultTemplate.section[2].score = resStraw.confidence;
-        resultTemplate.throwAway.push("빨대는 제거하여 일반쓰레기에 버리기");
-    }
-
-    if (resHead) {
-        resultTemplate.section[1].score = resHead.confidence;
-        resultTemplate.throwAway.push("종이팩의 뚜껑은 플라스틱으로 분리하여 버리기");
-    }
-
-    if (resBody) {
-        resultTemplate.section[0].score = resBody.confidence;
-        resultTemplate.throwAway.push("세척한 종이팩을 잘 말려서 종이팩으로 분리배출");
-    }
-
+function cartonAiResult(aiResponse: IAiResponse) {
+    const resultTemplate = new CartonAiResult();
+    const { 1: resCartonBody, 2: resCartonHead, 3: resCartonStraw } = aiResponse;
+    resultTemplate.createTemplate([resCartonStraw, resCartonHead, resCartonBody]);
     return resultTemplate;
 }
 
