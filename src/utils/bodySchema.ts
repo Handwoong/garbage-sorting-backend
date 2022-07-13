@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { TRASH_CATEGORY } from "@src/utils/constans";
+import { TRASH_CATEGORY } from "@src/utils/constants";
 
 export const userRegisterSchema = Joi.object({
     email: Joi.string().email({ minDomainSegments: 2 }).required(),

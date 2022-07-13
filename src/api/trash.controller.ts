@@ -5,7 +5,7 @@ import { ITrash } from "@src/models/interface";
 import { storage } from "@src/utils/fileUpload";
 import wrapAsyncFunc from "@src/utils/catchAsync";
 import { trashSchema } from "@src/utils/bodySchema";
-import { trashCategories } from "@src/utils/constans";
+import { trashCategories } from "@src/utils/constants";
 import { identifierSchema } from "@src/utils/paramsSchema";
 import { RequestError } from "@src/middlewares/errorHandler";
 import { STATUS_200_OK, STATUS_201_CREATED } from "@src/utils/statusCode";

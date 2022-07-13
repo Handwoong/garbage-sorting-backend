@@ -123,3 +123,17 @@ export interface IRobot {
     address: string;
     location: object;
 }
+
+export type AiSection = {
+    title: string;
+    score: number;
+};
+
+export type AiOneResponse = {
+    confidence: number;
+};
+
+export interface IAiResponse {
+    type: string;
+    [key: number]: AiOneResponse;
+}

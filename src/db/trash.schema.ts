@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { ITrash } from "@src/models/interface";
-import { TRASH_CATEGORY } from "@src/utils/constans";
+import { TRASH_CATEGORY } from "@src/utils/constants";
 
 const TrashSchema = new Schema<ITrash>(
     {
