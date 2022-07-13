@@ -74,6 +74,18 @@ class PaperAiResult extends AiResult {
     }
 }
 
+class PlasticAiResult extends AiResult {
+    constructor() {
+        super("플라스틱", "플라스틱", ["플라스틱"], THROW_AWAY.PLASTIC[0]);
+    }
+
+    setThrowAway(idx: number): void {
+        THROW_AWAY.PLASTIC[idx + 1].map((throwAway) => {
+            this.throwAway.push(throwAway);
+        });
+    }
+}
+
 function petAiResult(aiResponse: IAiResponse) {
     const resultTemplate = new PetAiResult();
     const { 6: resPetBody, 7: resPetHead, 8: resPetLabel } = aiResponse;
@@ -102,25 +114,10 @@ function paperAiResult(aiResponse: IAiResponse) {
     return resultTemplate;
 }
 
-function plasticAiResult(aiTarget: any) {
-    const { 10: resBody } = aiTarget;
-    const resultTemplate = {
-        title: "플라스틱",
-        kind: "플라스틱",
-        section: [{ title: "플라스틱", score: 0 }],
-        throwAway: [
-            "내용물을 비운 뒤 세척",
-            "부착 상표 등을 제거",
-            "찌그러뜨리고 뚜껑 닫기",
-            "플라스틱으로 분리 후 배출",
-        ],
-    };
-
-    if (resBody) {
-        resultTemplate.section[0].score = resBody.confidence;
-        resultTemplate.throwAway.push("세척한 종이팩을 잘 말려서 종이팩으로 분리배출");
-    }
-
+function plasticAiResult(aiResponse: IAiResponse) {
+    const resultTemplate = new PlasticAiResult();
+    const { 10: resPlasticBody } = aiResponse;
+    resultTemplate.createTemplate([resPlasticBody]);
     return resultTemplate;
 }
 
