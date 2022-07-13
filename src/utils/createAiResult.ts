@@ -86,6 +86,16 @@ class PlasticAiResult extends AiResult {
     }
 }
 
+class VinylAiResult extends AiResult {
+    constructor() {
+        super("비닐", "비닐류", ["비닐류"], THROW_AWAY.VINYL[0]);
+    }
+
+    setThrowAway(): void {
+        return;
+    }
+}
+
 function petAiResult(aiResponse: IAiResponse) {
     const resultTemplate = new PetAiResult();
     const { 6: resPetBody, 7: resPetHead, 8: resPetLabel } = aiResponse;
@@ -122,21 +132,9 @@ function plasticAiResult(aiResponse: IAiResponse) {
 }
 
 function vinylAiResult(aiTarget: any) {
-    const { 11: resBody } = aiTarget;
-    const resultTemplate = {
-        title: "비닐",
-        kind: "비닐류",
-        section: [{ title: "비닐류", score: 0 }],
-        throwAway: [
-            "내용물을 비우고 물로 헹구는 등 이물질 제거",
-            "장판, 천막, 의류, 침구류 등은 종량제 봉투나 대형폐기물로 배출",
-        ],
-    };
-
-    if (resBody) {
-        resultTemplate.section[0].score = resBody.confidence;
-    }
-
+    const resultTemplate = new VinylAiResult();
+    const { 11: resVinylBody } = aiTarget;
+    resultTemplate.createTemplate([resVinylBody]);
     return resultTemplate;
 }
 
