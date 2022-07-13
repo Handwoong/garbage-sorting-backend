@@ -62,9 +62,9 @@ AI_SERVER_URL               # AI SERVER URL
 
 ## 주요 기능 개발
 
-[`기능 구현 목록 - ChangeLog`](https://github.com/Handwoong/garbage-sorting-backend/wiki/ChangeLog)
+[`기능 구현 목록 - ChangeLog`](https://github.com/RECYCLEZIP/topten/wiki/ChangeLog)
 
 ## 기타 프로젝트 자료(링크)
 
-[`DataBase ERD`](https://github.com/Handwoong/garbage-sorting-backend/wiki/ERD-Image) <br/>
-[`Project Architecture`](https://github.com/Handwoong/garbage-sorting-backend/wiki/Project-Architecture)
+[`DataBase ERD`](https://github.com/RECYCLEZIP/topten/wiki/ERD-Image) <br/>
+[`Project Architecture`](https://github.com/RECYCLEZIP/topten/wiki/Project-Architecture)
