@@ -54,6 +54,25 @@ class CartonAiResult extends AiResult {
     }
 }
 
+class CanAiResult extends AiResult {
+    constructor() {
+        super(
+            "캔",
+            "캔/고철",
+            ["캔"],
+            [
+                "내용물을 비운 뒤 세척",
+                "라벨, 스티커 등 제거",
+                "최대한 압축 시켜 부피를 줄인 뒤 배출",
+            ],
+        );
+    }
+
+    setThrowAway(): void {
+        return;
+    }
+}
+
 function petAiResult(aiResponse: IAiResponse) {
     const resultTemplate = new PetAiResult();
     const { 6: resPetBody, 7: resPetHead, 8: resPetLabel } = aiResponse;
@@ -68,23 +87,10 @@ function cartonAiResult(aiResponse: IAiResponse) {
     return resultTemplate;
 }
 
-function canAiResult(aiTarget: any) {
-    const { 0: resBody } = aiTarget;
-    const resultTemplate = {
-        title: "캔",
-        kind: "캔/고철",
-        section: [{ title: "캔", score: 0 }],
-        throwAway: [
-            "내용물을 비운 뒤 세척",
-            "라벨, 스티커 등 제거",
-            "최대한 압축 시켜 부피를 줄인 뒤 배출",
-        ],
-    };
-
-    if (resBody) {
-        resultTemplate.section[0].score = resBody.confidence;
-    }
-
+function canAiResult(aiResponse: IAiResponse) {
+    const resultTemplate = new CanAiResult();
+    const { 0: resCanBody } = aiResponse;
+    resultTemplate.createTemplate([resCanBody]);
     return resultTemplate;
 }
 
