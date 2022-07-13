@@ -31,12 +31,12 @@ abstract class AiResult {
 
 class PetAiResult extends AiResult {
     constructor() {
-        super("페트병", "페트류", ["페트병", "뚜껑", "라벨"], ["내용물을 비운 뒤 세척"]);
+        super("페트병", "페트류", ["페트병", "뚜껑", "라벨"], THROW_AWAY.PET[0]);
     }
 
     setThrowAway(idx: number): void {
         if (idx === 1) THROW_AWAY.PET[idx][0] = "페트병을 찌그러뜨리고 뚜껑은 플라스틱으로 배출";
-        THROW_AWAY.PET[idx].map((throwAway) => {
+        THROW_AWAY.PET[idx + 1].map((throwAway) => {
             this.throwAway.push(throwAway);
         });
     }
@@ -44,11 +44,11 @@ class PetAiResult extends AiResult {
 
 class CartonAiResult extends AiResult {
     constructor() {
-        super("종이팩", "종이팩", ["종이팩", "뚜껑", "빨대"], ["내용물을 비운 뒤 세척"]);
+        super("종이팩", "종이팩", ["종이팩", "뚜껑", "빨대"], THROW_AWAY.CARTON[0]);
     }
 
     setThrowAway(idx: number): void {
-        THROW_AWAY.CARTON[idx].map((throwAway) => {
+        THROW_AWAY.CARTON[idx + 1].map((throwAway) => {
             this.throwAway.push(throwAway);
         });
     }
@@ -56,16 +56,17 @@ class CartonAiResult extends AiResult {
 
 class CanAiResult extends AiResult {
     constructor() {
-        super(
-            "캔",
-            "캔/고철",
-            ["캔"],
-            [
-                "내용물을 비운 뒤 세척",
-                "라벨, 스티커 등 제거",
-                "최대한 압축 시켜 부피를 줄인 뒤 배출",
-            ],
-        );
+        super("캔", "캔/고철", ["캔"], THROW_AWAY.CAN[0]);
+    }
+
+    setThrowAway(): void {
+        return;
+    }
+}
+
+class PaperAiResult extends AiResult {
+    constructor() {
+        super("종이", "종이류", ["종이"], THROW_AWAY.PAPER[0]);
     }
 
     setThrowAway(): void {
@@ -94,23 +95,10 @@ function canAiResult(aiResponse: IAiResponse) {
     return resultTemplate;
 }
 
-function paperAiResult(aiTarget: any) {
-    const { 5: resBody } = aiTarget;
-    const resultTemplate = {
-        title: "종이",
-        kind: "종이류",
-        section: [{ title: "종이", score: 0 }],
-        throwAway: [
-            "물에 젖지 않게 하기",
-            "이물질이 묻지 않게 하기",
-            "신문지는 끈으로 묶어서 배출하면 더 좋음",
-        ],
-    };
-
-    if (resBody) {
-        resultTemplate.section[0].score = resBody.confidence;
-    }
-
+function paperAiResult(aiResponse: IAiResponse) {
+    const resultTemplate = new PaperAiResult();
+    const { 5: resPaperBody } = aiResponse;
+    resultTemplate.createTemplate([resPaperBody]);
     return resultTemplate;
 }
 
