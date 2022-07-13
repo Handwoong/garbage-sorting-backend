@@ -35,7 +35,8 @@ class PetAiResult extends AiResult {
     }
 
     setThrowAway(idx: number): void {
-        if (idx === 1) THROW_AWAY.PET[idx][0] = "페트병을 찌그러뜨리고 뚜껑은 플라스틱으로 배출";
+        if (idx === 1)
+            THROW_AWAY.PET[idx + 1][0] = "페트병을 찌그러뜨리고 뚜껑은 플라스틱으로 배출";
         THROW_AWAY.PET[idx + 1].map((throwAway) => {
             this.throwAway.push(throwAway);
         });
@@ -131,9 +132,9 @@ function plasticAiResult(aiResponse: IAiResponse) {
     return resultTemplate;
 }
 
-function vinylAiResult(aiTarget: any) {
+function vinylAiResult(aiResponse: IAiResponse) {
     const resultTemplate = new VinylAiResult();
-    const { 11: resVinylBody } = aiTarget;
+    const { 11: resVinylBody } = aiResponse;
     resultTemplate.createTemplate([resVinylBody]);
     return resultTemplate;
 }
