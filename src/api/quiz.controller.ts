@@ -2,7 +2,7 @@ import { Router } from "express";
 import { QuizService } from "@src/service";
 import wrapAsyncFunc from "@src/utils/catchAsync";
 import { Submissions } from "@src/models/interface";
-import { MINIGAME_STEP } from "@src/utils/constans";
+import { MINIGAME_STEP } from "@src/utils/constants";
 import { STATUS_200_OK } from "@src/utils/statusCode";
 import { quizSchema, quizSetSchema } from "@src/utils/bodySchema";
 import { gameStepSchema, identifierSchema } from "@src/utils/paramsSchema";

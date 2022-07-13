@@ -33,6 +33,17 @@ export const trashCategories = [
     },
 ];
 
+export const THROW_AWAY = {
+    PET: [
+        [
+            "부착 상표 등을 제거 후 비닐로 분리하여 버리기",
+            "라벨이 스티커인 경우에는 일반쓰레기로 버리기",
+        ],
+        ["페트병을 찌그러뜨리기"],
+        ["페트류로 분리 후 배출"],
+    ],
+};
+
 export const TRASH_CATEGORY = [
     "플라스틱",
     "스티로폼",

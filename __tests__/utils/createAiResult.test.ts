@@ -2,7 +2,7 @@ import { createAiResult } from "@src/utils/createAiResult";
 
 describe("AI 분석 결과 템플릿", () => {
     it("분석 RESPONSE에 type이 없다면 분석 실패 메시지가 반환된다.", () => {
-        const result: any = createAiResult({});
+        const result: any = createAiResult({ type: "" });
         expect(result.message).toEqual("분석결과를 찾을 수 없습니다.");
     });
 

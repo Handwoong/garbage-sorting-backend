@@ -1,34 +1,51 @@
-function petAiResult(aiTarget: any) {
-    const { 6: resBody, 7: resHead, 8: resLabel } = aiTarget;
-    const resultTemplate = {
-        title: "페트병",
-        kind: "페트류",
-        section: [
-            { title: "페트병", score: 0 },
-            { title: "뚜껑", score: 0 },
-            { title: "라벨", score: 0 },
-        ],
-        throwAway: ["내용물을 비운 뒤 세척"],
-    };
+import { THROW_AWAY } from "@src/utils/constants";
+import { AiSection, AiOneResponse, IAiResponse } from "@src/models/interface";
 
-    if (resLabel) {
-        resultTemplate.section[2].score = resLabel.confidence;
-        resultTemplate.throwAway.push("부착 상표 등을 제거 후 비닐로 분리하여 버리기");
-        resultTemplate.throwAway.push("라벨이 스티커인 경우에는 일반쓰레기로 버리기");
+abstract class AiResult {
+    title: string;
+    kind: string;
+    section: AiSection[];
+    throwAway: string[];
+
+    protected constructor(title: string, kind: string, section: string[], throwAway: string[]) {
+        this.title = title;
+        this.kind = kind;
+        this.section = section.map((title) => ({ title, score: 0 }));
+        this.throwAway = throwAway;
     }
 
-    if (resHead) {
-        resultTemplate.section[1].score = resHead.confidence;
-        resultTemplate.throwAway.push("페트병을 찌그러뜨리고 뚜껑은 플라스틱으로 배출");
-    } else {
-        resultTemplate.throwAway.push("페트병을 찌그러뜨리기");
+    createTemplate(aiResponse: AiOneResponse[]) {
+        aiResponse.map((response, idx) => {
+            if (!response) return;
+            this.setScore(idx, response);
+            this.setThrowAway(idx);
+        });
     }
 
-    if (resBody) {
-        resultTemplate.section[0].score = resBody.confidence;
-        resultTemplate.throwAway.push("페트류로 분리 후 배출");
+    setScore(idx: number, response: AiOneResponse) {
+        this.section[idx].score = response.confidence;
     }
 
+    abstract setThrowAway(idx: number): void;
+}
+
+class PetAiResult extends AiResult {
+    constructor() {
+        super("페트병", "페트류", ["페트병", "뚜껑", "라벨"], ["내용물을 비운 뒤 세척"]);
+    }
+
+    setThrowAway(idx: number): void {
+        if (idx === 1) THROW_AWAY.PET[idx][0] = "페트병을 찌그러뜨리고 뚜껑은 플라스틱으로 배출";
+        THROW_AWAY.PET[idx].map((throwAway) => {
+            this.throwAway.push(throwAway);
+        });
+    }
+}
+
+function petAiResult(aiResponse: IAiResponse) {
+    const resultTemplate = new PetAiResult();
+    const { 6: resPetBody, 7: resPetHead, 8: resPetLabel } = aiResponse;
+    resultTemplate.createTemplate([resPetLabel, resPetHead, resPetBody]);
     return resultTemplate;
 }
 
@@ -144,20 +161,20 @@ function vinylAiResult(aiTarget: any) {
     return resultTemplate;
 }
 
-export function createAiResult(aiTarget: any) {
-    switch (aiTarget.type) {
+export function createAiResult(aiResponse: IAiResponse) {
+    switch (aiResponse.type) {
         case "Pet_Total":
-            return petAiResult(aiTarget);
+            return petAiResult(aiResponse);
         case "Can_Total":
-            return canAiResult(aiTarget);
+            return canAiResult(aiResponse);
         case "Carton_Total":
-            return cartonAiResult(aiTarget);
+            return cartonAiResult(aiResponse);
         case "Paper_Total":
-            return paperAiResult(aiTarget);
+            return paperAiResult(aiResponse);
         case "Vinyl_Total":
-            return vinylAiResult(aiTarget);
+            return vinylAiResult(aiResponse);
         case "Plastic_Total":
-            return plasticAiResult(aiTarget);
+            return plasticAiResult(aiResponse);
         default:
             return { message: "분석결과를 찾을 수 없습니다." };
     }
